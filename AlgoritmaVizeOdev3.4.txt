@@ -1,0 +1,103 @@
+#include <iostream>
+
+using namespace std;
+
+int main() {
+    int data[10] = {5, 14, 17, 5, 14, 64, 57, 5, 65, 47};
+    int dataSize = sizeof(data) / sizeof(int);
+
+    for (int i = 1; i < dataSize; ++i) {
+        int key = data[i];
+        int j = i - 1;
+        while (j >= 0 && data[j] > key) {
+            data[j + 1] = data[j];
+            --j;
+        }
+        data[j + 1] = key;
+    }
+
+    int sum = 0;
+    for (int i = 0; i < dataSize; i++)
+        sum += data[i];
+    double average = sum / static_cast<float>(dataSize);
+    cout << "Veri ortalamasi: " << average << endl;
+
+    cout << "En kucuk deger: " << data[0]
+         << " | En buyuk deger: " << data[dataSize - 1] << endl;
+
+    for (int i = 0; i < dataSize; i++) {
+        int currentChecking = data[i], occurance = 1;
+
+        for (int x = 0; x < dataSize - i; x++)
+            if (currentChecking == data[i + x + 1])
+                occurance++;
+
+        i += occurance - 1;
+
+        cout << currentChecking << " sayisi " << occurance << " kez mevcut."
+             << endl;
+    }
+
+    int even = 0;
+    int odd = 0;
+    for (int i = 0; i < dataSize; i++)
+        if (!(data[i] % 2))
+            even++;
+        else
+            odd++;
+
+    int evenArray[even], oddArray[odd];
+    int lastEven = 0, lastOdd = 0;
+    for (int i = 0; i < dataSize; i++) {
+        if (!(data[i] % 2)) {
+            evenArray[lastEven] = data[i];
+            lastEven++;
+        } else {
+            oddArray[lastOdd] = data[i];
+            lastOdd++;
+        }
+    }
+
+    cout << "Tek sayilar: ";
+    for (int i = 0; i < sizeof(oddArray) / sizeof(int); i++)
+        cout << oddArray[i] << " ";
+
+    cout << endl;
+
+    cout << "Cift sayilar: ";
+    for (int i = 0; i < sizeof(evenArray) / sizeof(int); i++)
+        cout << evenArray[i] << " ";
+
+    cout << endl;
+
+    int lower = 0, higher = 0;
+    for (int i = 0; i < dataSize; i++)
+        if (data[i] < average)
+            lower++;
+        else
+            higher++;
+
+    int lowerArray[lower], higherArray[higher];
+    int lastLower = 0, lastHigher = 0;
+    for (int i = 0; i < dataSize; i++) {
+        if (data[i] < average) {
+            lowerArray[lastLower] = data[i];
+            lastLower++;
+        } else {
+            higherArray[lastHigher] = data[i];
+            lastHigher++;
+        }
+    }
+
+    cout << "Ortalamadan dusuk olanlar: ";
+    for (int i = 0; i < sizeof(lowerArray) / sizeof(int); i++)
+        cout << lowerArray[i] << " ";
+    cout << endl;
+
+    cout << "Ortalamadan yuksek olanlar: ";
+    for (int i = 0; i < sizeof(higherArray) / sizeof(int); i++)
+        cout << higherArray[i] << " ";
+    cout << endl;
+
+    return 0;
+}

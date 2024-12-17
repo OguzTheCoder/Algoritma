@@ -1,0 +1,17 @@
+#include <cstdlib>
+#include <iostream>
+
+#define RAND_SEED 11550000
+#define NUM_COUNT 500
+
+using namespace std;
+
+int main() {
+    srand(RAND_SEED);
+    int randomNumbers[NUM_COUNT];
+    for (int i = 0; i < NUM_COUNT; i++)
+        randomNumbers[i] = 25 + (rand() % 11);
+    for (int i = 0; i < NUM_COUNT; i++)
+        cout << randomNumbers[i] << " ";
+    return 0;
+}

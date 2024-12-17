@@ -1,0 +1,77 @@
+#include <cstdlib>
+#include <iostream>
+#include <iomanip> 
+
+#define YEAR 5
+#define RAND_SEED 11550000
+
+using namespace std;
+
+int main() {
+    srand(RAND_SEED); 
+
+    int ciro[YEAR][12];    
+    float ortciro[YEAR];   
+
+
+    for (int i = 0; i < YEAR; i++) {
+        for (int x = 0; x < 12; x++) {
+            ciro[i][x] = (rand() % 4900) + 100;
+        }
+    }
+
+
+    for (int i = 0; i < YEAR; i++) {
+        float toplam = 0.0f;
+        for (int x = 0; x < 12; x++) {
+            toplam += ciro[i][x];
+        }
+        ortciro[i] = toplam / 12.0f;
+    }
+
+
+    int requestedYear = 0;
+    cout << "Ortalamadan yuksek aylari gormek icin bir yil (1-" << YEAR << ") giriniz: ";
+    cin >> requestedYear;
+
+    if (requestedYear < 1 || requestedYear > YEAR) {
+        cout << "Gecersiz yil! Program sonlandiriliyor." << endl;
+        return 1;
+    }
+
+    requestedYear--; 
+    cout << "\n" << requestedYear + 1 << ". yil icin ortalama: " << ortciro[requestedYear] << " TL\n";
+    cout << "Ortalamadan yuksek olan aylar:\n";
+    cout << "Ay\t\t|\tCiro\n";
+    cout << "-----------------------------------\n";
+
+    for (int i = 0; i < 12; i++) {
+        if (ciro[requestedYear][i] > ortciro[requestedYear]) {
+            cout << setw(2) << i + 1 << ". ay\t|\t" << ciro[requestedYear][i] << " TL\n";
+        }
+    }
+
+
+    cout << "\nCeyrek ortalamalarini hesaplamak icin bir yil (1-" << YEAR << ") giriniz: ";
+    cin >> requestedYear;
+
+    if (requestedYear < 1 || requestedYear > YEAR) {
+        cout << "Gecersiz yil! Program sonlandiriliyor." << endl;
+        return 1;
+    }
+
+    requestedYear--; 
+    cout << "\n" << requestedYear + 1 << ". yil icin ceyrek ortalamalari:\n";
+
+    for (int i = 0; i < 4; i++) {
+        int toplamCeyrek = 0;
+
+        for (int x = 0; x < 3; x++) {
+            toplamCeyrek += ciro[requestedYear][x + i * 3];
+        }
+
+        cout << i + 1 << ". ceyrek ortalamasi: " << toplamCeyrek / 3.0f << " TL" << endl;
+    }
+
+    return 0;
+}
